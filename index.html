@@ -45,20 +45,21 @@
 <body class="bg-brandBg text-brandDark font-sans antialiased selection:bg-brandAccent/20 selection:text-brandDark">
 
   <!-- =========================================================================
-       ПРЕЛОАДЕР ИЗ V5 (ПРОГРЕСС-БАР ЗАГРУЗКИ КАДРОВ)
+       LOADER (КАК В GLOBAL-PLUS — С ДИНАМИЧЕСКИМ ПРОЦЕНТОМ И БАР-ИНДИКАТОРОМ)
        ========================================================================= -->
-  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-brandBg transition-opacity duration-700">
-    <div class="text-center px-6 animate-editorial-pulse">
-      <span class="inline-block text-brandMuted tracking-[0.3em] text-[10px] uppercase mb-4 font-medium">Пространство осознанного движения</span>
-      <h2 class="text-3xl md:text-5xl font-serif text-brandDark mb-8 font-light italic">Анастасия Емельянова</h2>
-      <div class="w-32 h-[1px] bg-brandBorder mx-auto overflow-hidden relative">
-        <div id="progress-bar" class="absolute top-0 left-0 h-full bg-brandDark w-0 transition-all duration-300"></div>
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <span class="font-serif italic font-bold">АНАСТАСИЯ</span>
+        <span class="font-serif italic text-brandAccent font-bold">ЕМЕЛЬЯНОВА</span>
       </div>
+      <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+      <div class="loader-pct" id="loaderPct">0%</div>
     </div>
   </div>
 
-  <!-- КИНЕМАТОГРАФИЧЕСКИЙ CANVAS И ТЕПЛЫЙ ОВЕРЛЕЙ ИЗ V5 -->
-  <canvas id="gl-canvas"></canvas>
+  <!-- КИНЕМАТОГРАФИЧЕСКИЙ CANVAS И ТЕПЛЫЙ ОВЕРЛЕЙ -->
+  <canvas id="scrollCanvas"></canvas>
   <div class="bg-overlay"></div>
 
   <!-- =========================================================================

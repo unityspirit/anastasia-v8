@@ -1,8 +1,70 @@
 /* ==========================================================================
-   СТИЛИ: АНАСТАСИЯ ЕМЕЛЬЯНОВА V8 (LUXURY GLOSS + CINEMATIC SCROLL ENGINE V5)
+   СТИЛИ: АНАСТАСИЯ ЕМЕЛЬЯНОВА V8 (GLOBAL-PLUS ADAPTIVE LOADER & ENGINE)
    ========================================================================== */
 
-#gl-canvas {
+/* LOADER КАК В GLOBAL-PLUS */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #0E0D0C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .5s ease, visibility .5s ease;
+}
+
+#loader.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.loader-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.loader-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(26px, 5vw, 42px);
+  color: #fff;
+  letter-spacing: 5px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.loader-bar {
+  width: 240px;
+  max-width: 80vw;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 12px;
+}
+
+.loader-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #D4A94B, #5B6E4E);
+  transition: width .12s ease-out;
+}
+
+.loader-pct {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* CANVAS СКРОЛЛ-ВИДЕО */
+#scrollCanvas {
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -10,10 +72,9 @@
   z-index: 0;
   pointer-events: none;
   object-fit: cover;
-  opacity: 0.95;
+  background: radial-gradient(ellipse at 50% 30%, #1e1d1b 0%, #0E0D0C 75%);
 }
 
-/* Элегантный теплый оверлей из V5 — кинематографичный, фон свободно дышит */
 .bg-overlay {
   position: fixed;
   inset: 0;
@@ -38,24 +99,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Глобальные усиления для текста */
+/* Текст */
 p, li { color: #2a2826; line-height: 1.85; }
 h1, h2, h3, h4 { color: #100F0E; }
 
-/* Секции как в V5 — центрированные, дышащие, активируются при скролле */
+/* Секции как в V5 & Global-Plus */
 .page {
   position: relative;
   z-index: 10;
   min-height: 100vh;
   scroll-snap-align: start;
-  opacity: 0.22;
+  opacity: 0.25;
   transform: translateY(24px);
-  transition: opacity 0.85s cubic-bezier(0.25, 1, 0.5, 1), transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.75s cubic-bezier(0.25, 1, 0.5, 1), transform 0.75s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .page.is-active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Арочная форма для фотографии на первом экране */
@@ -114,16 +175,7 @@ h1, h2, h3, h4 { color: #100F0E; }
   transform: scale(1) translateY(0) !important;
 }
 
-/* Прелоадер анимация */
-@keyframes editorialPulse {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
-}
-.animate-editorial-pulse {
-  animation: editorialPulse 3s ease-in-out infinite;
-}
-
-/* Утонченный скроллбар */
+/* Скроллбар */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #F7F5F0; }
 ::-webkit-scrollbar-thumb { background: #D8D2C8; border-radius: 4px; }
