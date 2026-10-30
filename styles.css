@@ -1,35 +1,7 @@
 /* ==========================================================================
-   СТИЛИ: АНАСТАСИЯ ЕМЕЛЬЯНОВА V8 (CINEMATIC SCROLL BACKGROUND + EDITORIAL)
+   СТИЛИ: АНАСТАСИЯ ЕМЕЛЬЯНОВА V8 (LUXURY GLOSS + CINEMATIC SCROLL ENGINE V5)
    ========================================================================== */
 
-:root {
-  --brand-dark: #111110;
-  --brand-dark-bg: #161614;
-  --brand-muted: #52504C;
-  --brand-bg: #F7F5F0;
-  --brand-card: #FFFFFF;
-  --brand-accent: #5B6E4E;
-  --brand-accent-dark: #44533A;
-  --brand-border: #E4DFD5;
-  --brand-gold: #C49E65;
-}
-
-html {
-  scroll-behavior: smooth;
-  background-color: var(--brand-bg);
-  font-size: 17px;
-}
-
-body {
-  overflow-x: hidden;
-  color: var(--brand-dark);
-  font-weight: 500;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Кинематографический канвас с видео */
 #gl-canvas {
   position: fixed;
   inset: 0;
@@ -38,16 +10,52 @@ body {
   z-index: 0;
   pointer-events: none;
   object-fit: cover;
-  opacity: 0.90;
+  opacity: 0.95;
 }
 
-/* Кинематографический градиент-оверлей: сочный свет в центре и идеальная читаемость по краям */
+/* Элегантный теплый оверлей из V5 — кинематографичный, фон свободно дышит */
 .bg-overlay {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 45%, rgba(247, 245, 240, 0.18) 0%, rgba(247, 245, 240, 0.76) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(247, 245, 240, 0.18) 0%, rgba(247, 245, 240, 0.65) 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  background-color: #F7F5F0;
+  font-size: 17px;
+}
+
+body {
+  overflow-x: hidden;
+  color: #100F0E;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Глобальные усиления для текста */
+p, li { color: #2a2826; line-height: 1.85; }
+h1, h2, h3, h4 { color: #100F0E; }
+
+/* Секции как в V5 — центрированные, дышащие, активируются при скролле */
+.page {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  opacity: 0.22;
+  transform: translateY(24px);
+  transition: opacity 0.85s cubic-bezier(0.25, 1, 0.5, 1), transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.page.is-active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Арочная форма для фотографии на первом экране */
@@ -58,25 +66,37 @@ body {
   border-bottom-right-radius: 36px;
 }
 
-/* Стили для ссылок и кнопок */
-button, a {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* Навигация */
+.nav-link {
+  position: relative;
+  transition: color 0.4s ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #1C1B1A;
+  transition: width 0.4s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
 }
 
 /* Аккордеон FAQ */
 .faq-item {
   transition: border-color 0.2s ease;
 }
-
 .faq-item.active .faq-icon {
   transform: rotate(45deg);
-  color: var(--brand-dark);
+  color: #100F0E;
 }
-
 .faq-item.active .faq-question span:first-child {
-  color: var(--brand-accent);
+  color: #5B6E4E;
 }
-
 .faq-answer {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -85,39 +105,26 @@ button, a {
 .modal {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
 .modal.active {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
-
 .modal.active #bookingModalCard,
 .modal.active #paymentModalCard {
   transform: scale(1) translateY(0) !important;
 }
 
-/* Плавный скроллбар */
-::-webkit-scrollbar {
-  width: 8px;
+/* Прелоадер анимация */
+@keyframes editorialPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
-::-webkit-scrollbar-track {
-  background: #F7F5F0;
-}
-::-webkit-scrollbar-thumb {
-  background: #D8D2C8;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #5B6E4E;
+.animate-editorial-pulse {
+  animation: editorialPulse 3s ease-in-out infinite;
 }
 
-/* Текстовые акценты */
-.font-serif {
-  letter-spacing: -0.01em;
-}
-
-/* Плавные переходы для стеклянных карточек */
-.backdrop-blur-md {
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
+/* Утонченный скроллбар */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F7F5F0; }
+::-webkit-scrollbar-thumb { background: #D8D2C8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #5B6E4E; }
