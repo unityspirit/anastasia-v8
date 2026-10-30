@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Анастасия Емельянова | Фитнес-тренер и нутрициолог</title>
+  <meta name="description" content="Сильное, подтянутое тело без крайностей. Комплексное сопровождение: тренировки, питание, пищевое поведение без диет и срывов.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandDark:    '#111110', // Глубокий премиальный графит/черный
+            brandDarkBg:  '#161614', // Темный фон для контрастных секций
+            brandMuted:   '#52504C', // Читаемый благородный серый
+            brandBg:      '#F7F5F0', // Фирменный теплый молочно-песочный фон
+            brandCard:    '#FFFFFF', // Чистый белый фон карточек
+            brandAccent:  '#5B6E4E', // Теплый оливковый / благородный шалфей
+            brandAccentDark: '#44533A',
+            brandBorder:  '#E4DFD5', // Тонкие эстетичные границы
+            brandBorderDark: '#2C2B27',
+            brandGold:    '#C49E65', // Золотистый акцент
+          },
+          fontFamily: {
+            sans:  ['Montserrat', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+          },
+          boxShadow: {
+            editorial: '0 12px 40px -10px rgba(22, 22, 20, 0.08)',
+            'editorial-hover': '0 20px 50px -10px rgba(22, 22, 20, 0.15)',
+            cardDark: '0 15px 45px -10px rgba(0, 0, 0, 0.45)',
+            btn: '0 10px 25px -5px rgba(91, 110, 78, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-brandBg text-brandDark font-sans antialiased selection:bg-brandAccent/20 selection:text-brandDark">
+
+  <!-- Индикатор фоновой загрузки кадров в шапке (эстетичный и ненавязчивый) -->
+  <div id="video-progress" class="fixed top-0 left-0 h-[2px] bg-brandAccent z-50 transition-all duration-300 w-0"></div>
+
+  <!-- =========================================================================
+       КИНЕМАТОГРАФИЧЕСКИЙ СКРОЛЛ-ФОН (CANVAS + LUXURY ОВЕРЛЕЙ)
+       ========================================================================= -->
+  <canvas id="gl-canvas"></canvas>
+  <div class="bg-overlay"></div>
+
+  <!-- Контентный слой сайта -->
+  <div class="relative z-10 w-full">
+
+    <!-- =========================================================================
+         ШАПКА САЙТА (HEADER)
+         ========================================================================= -->
+    <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300 backdrop-blur-md bg-brandBg/85 border-b border-brandBorder/60" id="navbar">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center">
+        <!-- Логотип AE. -->
+        <a href="#hero" class="group flex items-center space-x-2">
+          <span class="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-brandDark group-hover:text-brandAccent transition-colors">AE.</span>
+          <span class="hidden md:inline-block text-[11px] uppercase tracking-[0.25em] text-brandMuted border-l border-brandBorder pl-3 py-0.5">Анастасия Емельянова</span>
+        </a>
+
+        <!-- Десктоп навигация (ОБО МНЕ, ПОДХОД, ФОРМАТЫ, FAQ) -->
+        <nav class="hidden lg:flex items-center space-x-8 text-[12px] uppercase tracking-[0.2em] font-semibold text-brandDark/80">
+          <a href="#about" class="hover:text-brandAccent transition-colors py-1">Обо мне</a>
+          <a href="#approach" class="hover:text-brandAccent transition-colors py-1">Подход</a>
+          <a href="#steps" class="hover:text-brandAccent transition-colors py-1">Как работаем</a>
+          <a href="#formats" class="hover:text-brandAccent transition-colors py-1">Форматы</a>
+          <a href="#workouts" class="hover:text-brandAccent transition-colors py-1 text-brandAccent font-bold">3 тренировки (999 ₽)</a>
+          <a href="#faq" class="hover:text-brandAccent transition-colors py-1">FAQ</a>
+        </nav>
+
+        <!-- Кнопка связи и бургер -->
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <button onclick="openBookingModal('Бесплатная диагностика')" class="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-sm hover:shadow-btn active:scale-95">
+            Диагностика
+          </button>
+          <button id="mobile-menu-btn" class="lg:hidden p-2 text-brandDark rounded-lg hover:bg-black/5 transition" aria-label="Открыть меню">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Мобильное выпадающее меню -->
+      <div id="mobile-menu" class="hidden lg:hidden bg-brandBg/95 backdrop-blur-xl border-t border-brandBorder px-6 py-6 space-y-4 shadow-xl text-center">
+        <a href="#about" class="block text-lg font-serif text-brandDark py-1 mobile-link">Обо мне</a>
+        <a href="#approach" class="block text-lg font-serif text-brandDark py-1 mobile-link">Подход</a>
+        <a href="#steps" class="block text-lg font-serif text-brandDark py-1 mobile-link">Как проходит работа</a>
+        <a href="#formats" class="block text-lg font-serif text-brandDark py-1 mobile-link">Форматы работы</a>
+        <a href="#workouts" class="block text-lg font-serif text-brandAccent font-bold py-1 mobile-link">3 тренировки (999 ₽)</a>
+        <a href="#faq" class="block text-lg font-serif text-brandDark py-1 mobile-link">Частые вопросы</a>
+        <div class="pt-3 border-t border-brandBorder/60 flex justify-center space-x-6 text-sm font-medium text-brandMuted">
+          <a href="https://t.me/Emel_Anas" target="_blank" class="hover:text-brandDark">Telegram</a>
+          <a href="https://t.me/tely_delo" target="_blank" class="hover:text-brandDark">Канал</a>
+          <a href="https://www.instagram.com/emelyanova_fit?igsh=MTk2bDh3dzRnMDNwdg%3D%3D&utm_source=qr" target="_blank" class="hover:text-brandDark">Instagram</a>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- =========================================================================
+         01 / ГЛАВНЫЙ ЭКРАН (HERO)
+         ========================================================================= -->
+    <section class="min-h-screen pt-28 sm:pt-36 pb-16 sm:pb-24 px-5 sm:px-8 max-w-7xl mx-auto flex items-center" id="hero">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center w-full">
+        
+        <!-- Левая колонка: Оффер и призыв к действию -->
+        <div class="lg:col-span-7 flex flex-col justify-center text-left">
+          <!-- Стеклянная плашка для идеального чтения на фоне динамического видео -->
+          <div class="p-6 sm:p-10 rounded-3xl bg-white/70 backdrop-blur-md border border-white/80 shadow-editorial mb-4">
+            <div class="inline-flex items-center space-x-2 text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-4 sm:mb-5">
+              <span class="w-2 h-2 rounded-full bg-brandAccent animate-ping"></span>
+              <span>ФИТНЕС-ТРЕНЕР · НУТРИЦИОЛОГ</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl md:text-6xl xl:text-[68px] font-serif font-bold text-brandDark leading-[1.08] tracking-tight mb-6 sm:mb-8">
+              Сильное, <br class="hidden sm:block">
+              подтянутое <br class="hidden sm:block">
+              тело <span class="italic font-normal text-brandAccent">без крайностей</span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-brandMuted font-medium leading-relaxed max-w-xl mb-8 sm:mb-10">
+              Помогаю выстроить тренировки и питание, которые вписываются в реальную жизнь — без запретов, вечного «с понедельника» и чувства вины.
+            </p>
+
+            <!-- Кнопки и пояснение -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-5 mb-5">
+              <button onclick="openBookingModal('Главный экран - Запись на диагностику')" class="px-8 py-4 rounded-full text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.12em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md hover:shadow-btn text-center active:scale-95">
+                Записаться на диагностику
+              </button>
+              
+              <a href="#about" class="px-7 py-4 rounded-full text-[13px] sm:text-[14px] font-semibold text-brandDark border border-brandBorder bg-white/80 hover:bg-white hover:border-brandDark/40 transition-all duration-300 text-center flex items-center justify-center space-x-2">
+                <span>Узнать мой подход</span>
+                <span class="text-lg">↓</span>
+              </a>
+            </div>
+
+            <div class="flex items-center space-x-2 text-xs sm:text-sm text-brandMuted font-medium">
+              <svg class="w-4 h-4 text-brandAccent flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              <span>Бесплатный созвон 20–30 минут · без обязательств</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка: Портрет Анастасии с арочной верхушкой и карточкой цели -->
+        <div class="lg:col-span-5 relative flex justify-center items-center mt-4 lg:mt-0">
+          <div class="relative w-full max-w-sm sm:max-w-md">
+            <!-- Арочная рамка с фото Анастасии -->
+            <div class="arch-frame relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shadow-2xl border-4 border-white bg-neutral-200">
+              <picture>
+                <source srcset="images/nastya-hero.webp" type="image/webp">
+                <img src="images/nastya-hero.png" alt="Анастасия Емельянова — фитнес-тренер и нутрициолог" class="w-full h-full object-cover object-top filter contrast-[1.03] transition-transform duration-700 hover:scale-105" loading="eager">
+              </picture>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Накладная карточка "ГЛАВНАЯ ЦЕЛЬ / Свобода" -->
+            <div class="absolute -bottom-6 -left-4 sm:-bottom-8 sm:-left-6 bg-white/95 backdrop-blur-md border border-brandBorder p-5 sm:p-6 rounded-2xl shadow-editorial max-w-[240px] sm:max-w-[270px]">
+              <span class="block text-[10px] font-bold uppercase tracking-[0.25em] text-brandAccent mb-1">Главная цель</span>
+              <div class="text-2xl sm:text-3xl font-serif font-bold text-brandDark leading-none mb-1">Свобода</div>
+              <div class="text-xs sm:text-sm text-brandMuted font-medium leading-snug">от весов, диет и чувства вины</div>
+            </div>
+
+            <!-- Декоративный бэйдж -->
+            <div class="absolute -top-3 -right-3 sm:-top-5 sm:-right-5 bg-brandDark text-white px-4 py-2 rounded-full text-[11px] font-bold tracking-widest uppercase shadow-lg border border-brandDark/20">
+              Настя
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         02 / ПРИВЕТ, Я НАСТЯ
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-7xl mx-auto" id="about">
+      <div class="p-8 sm:p-14 rounded-3xl bg-white/75 backdrop-blur-md border border-white/80 shadow-editorial">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          
+          <!-- Фотография слева -->
+          <div class="lg:col-span-5 order-2 lg:order-1 flex justify-center">
+            <div class="relative w-full max-w-md rounded-3xl overflow-hidden shadow-editorial border-4 border-white aspect-[3/4]">
+              <picture>
+                <source srcset="images/nastya-about.webp" type="image/webp">
+                <img src="images/nastya-about.png" alt="Анастасия Емельянова на тренировке" class="w-full h-full object-cover object-center filter contrast-[1.02] hover:scale-105 transition-transform duration-700" loading="lazy">
+              </picture>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute bottom-5 left-5 right-5 text-white">
+                <div class="text-sm font-semibold tracking-wider uppercase opacity-90">Тренер & Нутрициолог</div>
+                <div class="text-xs text-white/80 font-light">Личный опыт и научный подход</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- История и позиционирование справа -->
+          <div class="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-center">
+            <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-4">
+              ПРИВЕТ, Я НАСТЯ
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark leading-tight mb-8">
+              Я не учу жить «идеально». <br>
+              <span class="italic text-brandAccent font-normal">Я помогаю найти систему,</span> которая работает для тебя.
+            </h2>
+
+            <div class="space-y-6 text-base sm:text-lg text-brandMuted font-medium leading-relaxed max-w-2xl mb-8">
+              <p>
+                Я фитнес-тренер и нутрициолог. Моя работа — не про сухое меню любой ценой и не про наказание часами кардио за съеденный круассан или пасту.
+              </p>
+              <p>
+                Мы собираем понятный, комфортный маршрут под твою настоящую цель, рабочий график и реальную жизнь. Чтобы результат держался не на силе воли до первых выходных, а на привычках, которые навсегда остаются с тобой.
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-brandBorder/80 flex items-center justify-between max-w-md">
+              <div>
+                <div class="font-serif text-2xl font-bold text-brandDark italic">Анастасия Емельянова</div>
+                <div class="text-xs uppercase tracking-wider text-brandMuted font-semibold mt-0.5">Твой проводник в легкое и сильное тело</div>
+              </div>
+              <a href="https://t.me/Emel_Anas" target="_blank" class="inline-flex items-center space-x-2 text-xs uppercase tracking-widest font-bold text-brandAccent hover:text-brandDark transition">
+                <span>Написать в TG</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         03 / УЗНАЁШЬ СЕБЯ? (СЕТКА 2 x 2)
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-6xl mx-auto" id="quiz">
+      <div class="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+        <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-3">
+          УЗНАЁШЬ СЕБЯ?
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark">
+          Тебе ко мне, если ты…
+        </h2>
+      </div>
+
+      <!-- Сетка 2 x 2 с крупными номерами -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14">
+        
+        <!-- Пункт 01 -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-white/85 backdrop-blur-md border border-brandBorder shadow-editorial hover:shadow-editorial-hover transition-all duration-300 flex items-start space-x-6 group">
+          <span class="font-serif text-3xl sm:text-4xl font-bold text-brandAccent group-hover:text-brandDark transition-colors">01</span>
+          <div>
+            <p class="text-lg sm:text-xl font-semibold text-brandDark leading-snug">
+              Хочешь подтянутое тело, но не хочешь превращать фитнес во вторую работу
+            </p>
+            <p class="text-sm text-brandMuted mt-2">
+              Тренировки должны давать энергию для жизни, а не забирать последние силы после работы.
+            </p>
+          </div>
+        </div>
+
+        <!-- Пункт 02 -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-white/85 backdrop-blur-md border border-brandBorder shadow-editorial hover:shadow-editorial-hover transition-all duration-300 flex items-start space-x-6 group">
+          <span class="font-serif text-3xl sm:text-4xl font-bold text-brandAccent group-hover:text-brandDark transition-colors">02</span>
+          <div>
+            <p class="text-lg sm:text-xl font-semibold text-brandDark leading-snug">
+              Устала от бесконечной схемы «диета → срыв → снова диета»
+            </p>
+            <p class="text-sm text-brandMuted mt-2">
+              Пора перестать делить дни на «идеальные» и «сорвалась» — научимся жить в комфортном балансе.
+            </p>
+          </div>
+        </div>
+
+        <!-- Пункт 03 -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-white/85 backdrop-blur-md border border-brandBorder shadow-editorial hover:shadow-editorial-hover transition-all duration-300 flex items-start space-x-6 group">
+          <span class="font-serif text-3xl sm:text-4xl font-bold text-brandAccent group-hover:text-brandDark transition-colors">03</span>
+          <div>
+            <p class="text-lg sm:text-xl font-semibold text-brandDark leading-snug">
+              Тренируешься, но не видишь желаемых изменений в зеркале
+            </p>
+            <p class="text-sm text-brandMuted mt-2">
+              Скорректируем технику, режим восстановления и питание — тело сразу откликнется рельефом.
+            </p>
+          </div>
+        </div>
+
+        <!-- Пункт 04 -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-white/85 backdrop-blur-md border border-brandBorder shadow-editorial hover:shadow-editorial-hover transition-all duration-300 flex items-start space-x-6 group">
+          <span class="font-serif text-3xl sm:text-4xl font-bold text-brandAccent group-hover:text-brandDark transition-colors">04</span>
+          <div>
+            <p class="text-lg sm:text-xl font-semibold text-brandDark leading-snug">
+              Хочешь есть нормально, не деля продукты на «хорошие» и «плохие»
+            </p>
+            <p class="text-sm text-brandMuted mt-2">
+              Вкусная еда, рестораны и встречи с друзьями останутся с тобой — без тревоги и угрызений совести.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Нижняя сильная фраза -->
+      <div class="text-center p-8 rounded-2xl bg-white/85 backdrop-blur-md border border-brandBorder max-w-3xl mx-auto shadow-sm">
+        <p class="text-xl sm:text-2xl font-serif italic font-bold text-brandDark">
+          «Тебе не нужна ещё одна жёсткая схема. Тебе нужна своя.»
+        </p>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         04 / МОЙ ПОДХОД (КОНТРАСТНЫЙ ТЁМНЫЙ РАЗДЕЛ)
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 bg-brandDarkBg/95 backdrop-blur-xl text-white border-y border-brandBorderDark relative overflow-hidden" id="approach">
+      <!-- Фоновый градиентный свет -->
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-brandAccent/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-brandGold/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto relative z-10">
+        
+        <div class="max-w-3xl mb-16 sm:mb-20">
+          <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-4">
+            ОСНОВА РАБОТЫ
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+            Четыре опоры <br class="hidden sm:block">устойчивого результата
+          </h2>
+        </div>
+
+        <!-- 4 колонки: Тело, Еда, Голова, Дисциплина -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+          
+          <!-- Опора 01 -->
+          <div class="border-t border-white/20 pt-8 flex flex-col group hover:border-brandAccent transition-colors duration-300">
+            <div class="font-serif text-2xl font-bold text-brandAccent mb-3">01</div>
+            <h3 class="text-2xl font-serif font-bold text-white mb-4">Тело</h3>
+            <p class="text-sm sm:text-base text-neutral-300 font-medium leading-relaxed">
+              Тренировки для сильного, подтянутого и женственного тела — без изнуряющей жизни в спортзале.
+            </p>
+          </div>
+
+          <!-- Опора 02 -->
+          <div class="border-t border-white/20 pt-8 flex flex-col group hover:border-brandAccent transition-colors duration-300">
+            <div class="font-serif text-2xl font-bold text-brandAccent mb-3">02</div>
+            <h3 class="text-2xl font-serif font-bold text-white mb-4">Еда</h3>
+            <p class="text-sm sm:text-base text-neutral-300 font-medium leading-relaxed">
+              Рацион для твоей цели, где всегда есть место ресторанам, путешествиям и любимым десертам.
+            </p>
+          </div>
+
+          <!-- Опора 03 -->
+          <div class="border-t border-white/20 pt-8 flex flex-col group hover:border-brandAccent transition-colors duration-300">
+            <div class="font-serif text-2xl font-bold text-brandAccent mb-3">03</div>
+            <h3 class="text-2xl font-serif font-bold text-white mb-4">Голова</h3>
+            <p class="text-sm sm:text-base text-neutral-300 font-medium leading-relaxed">
+              Разбираемся в истинных причинах перееданий и стресса, заменяя запреты на осознанность.
+            </p>
+          </div>
+
+          <!-- Опора 04 -->
+          <div class="border-t border-white/20 pt-8 flex flex-col group hover:border-brandAccent transition-colors duration-300">
+            <div class="font-serif text-2xl font-bold text-brandAccent mb-3">04</div>
+            <h3 class="text-2xl font-serif font-bold text-white mb-4">Дисциплина</h3>
+            <p class="text-sm sm:text-base text-neutral-300 font-medium leading-relaxed">
+              Создаем понятную систему на месяцы и годы вперед, а не кратковременный спринт до выходных.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         05 / РЕЗУЛЬТАТЫ (НЕ ПРОСТО «ДО И ПОСЛЕ»)
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-7xl mx-auto" id="results">
+      <div class="p-8 sm:p-14 rounded-3xl bg-white/75 backdrop-blur-md border border-white/80 shadow-editorial">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          
+          <!-- Заголовок и вводный текст -->
+          <div class="lg:col-span-5">
+            <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-4">
+              РЕЗУЛЬТАТ ШИРЕ ЦИФРЫ НА ВЕСАХ
+            </div>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark leading-tight mb-6">
+              Не просто «до и после». <br>
+              <span class="italic text-brandAccent font-normal">А жизнь,</span> которая изменилась.
+            </h2>
+            <p class="text-base sm:text-lg text-brandMuted font-medium leading-relaxed mb-8">
+              Важны не только сантиметры на талии. Сила, уверенность в себе, спокойные отношения с едой и естественная привычка заботиться о своём теле — это и есть настоящий результат.
+            </p>
+
+            <div class="p-6 rounded-2xl bg-white/90 border border-brandBorder shadow-sm">
+              <div class="text-xs uppercase tracking-widest font-bold text-brandDark mb-2">Честный подход</div>
+              <p class="text-sm text-brandMuted">
+                Мы не используем экстремальный дефицит калорий и мочегонные препараты. Все изменения происходят безопасно для женского здоровья и гормональной системы.
+              </p>
+            </div>
+          </div>
+
+          <!-- Карточки реальных изменений и отзывов -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <div class="p-8 sm:p-10 rounded-2xl bg-white/95 border border-brandBorder shadow-editorial">
+              <div class="flex items-center space-x-1 text-brandGold mb-4">
+                <span>★★★★★</span>
+                <span class="text-xs text-brandMuted ml-2 font-medium">Отзыв клиентки</span>
+              </div>
+              <p class="text-xl sm:text-2xl font-serif italic text-brandDark font-semibold leading-snug mb-4">
+                «Перестала бояться еды и впервые не бросила тренировки через месяц»
+              </p>
+              <p class="text-sm text-brandMuted leading-relaxed">
+                Раньше каждый приём пищи сопровождался тревогой и подсчетом до грамма. Настя научила меня собирать тарелку по ощущениям и понимать свои сигналы голода. Минус 6 см в талии и абсолютный покой в голове.
+              </p>
+            </div>
+
+            <div class="p-8 sm:p-10 rounded-2xl bg-white/95 border border-brandBorder shadow-editorial">
+              <div class="flex items-center space-x-1 text-brandGold mb-4">
+                <span>★★★★★</span>
+                <span class="text-xs text-brandMuted ml-2 font-medium">Отзыв клиентки</span>
+              </div>
+              <p class="text-xl sm:text-2xl font-serif italic text-brandDark font-semibold leading-snug mb-4">
+                «Стала сильнее, подтянула тело и больше не начинаю всё заново каждый понедельник»
+              </p>
+              <p class="text-sm text-brandMuted leading-relaxed">
+                Главное открытие — тренировки не обязательно должны быть пыткой. Мы занимаемся онлайн, техника поставлена идеально, спина больше не ноет после офиса, а ягодицы стали круглыми и упругими.
+              </p>
+            </div>
+
+            <div class="text-center sm:text-left text-xs uppercase tracking-widest text-brandMuted font-semibold pt-2">
+              МЕСТО ДЛЯ РЕАЛЬНЫХ КЕЙСОВ И ОТЗЫВОВ · ИСТОРИИ НАШИХ ДЕВУШЕК
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         06 / КАК ПРОХОДИТ РАБОТА (ПОСЛЕДОВАТЕЛЬНОСТЬ ИЗ 3 ШАГОВ)
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-6xl mx-auto" id="steps">
+      <div class="p-8 sm:p-14 rounded-3xl bg-white/75 backdrop-blur-md border border-white/80 shadow-editorial">
+        <div class="max-w-3xl mb-16 sm:mb-20">
+          <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-4">
+            ВМЕСТЕ ПО ШАГАМ
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark leading-tight">
+            Как проходит работа
+          </h2>
+        </div>
+
+        <!-- Шаги с линиями и крупными номерами -->
+        <div class="space-y-10 sm:space-y-12">
+          
+          <!-- Шаг 1 -->
+          <div class="border-t border-brandBorder pt-8 sm:pt-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+            <div class="md:col-span-1">
+              <span class="font-serif text-4xl sm:text-5xl font-bold text-brandAccent">1</span>
+            </div>
+            <div class="md:col-span-4">
+              <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark">Знакомимся</h3>
+            </div>
+            <div class="md:col-span-7">
+              <p class="text-base sm:text-lg text-brandMuted font-medium leading-relaxed">
+                На бесплатной диагностике (созвон 20–30 минут) подробно обсуждаем твою цель, график работы, текущее питание, тренировочный опыт и то, что раньше мешало удержать форму.
+              </p>
+            </div>
+          </div>
+
+          <!-- Шаг 2 -->
+          <div class="border-t border-brandBorder pt-8 sm:pt-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+            <div class="md:col-span-1">
+              <span class="font-serif text-4xl sm:text-5xl font-bold text-brandAccent">2</span>
+            </div>
+            <div class="md:col-span-4">
+              <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark">Собираем твой план</h3>
+            </div>
+            <div class="md:col-span-7">
+              <p class="text-base sm:text-lg text-brandMuted font-medium leading-relaxed">
+                Составляем персональную программу под уровень подготовки, инвентарь (дома или в зале) и выбранный формат сопровождения — без слепого копирования шаблонов.
+              </p>
+            </div>
+          </div>
+
+          <!-- Шаг 3 -->
+          <div class="border-t border-brandBorder pt-8 sm:pt-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+            <div class="md:col-span-1">
+              <span class="font-serif text-4xl sm:text-5xl font-bold text-brandAccent">3</span>
+            </div>
+            <div class="md:col-span-4">
+              <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark">Идём вместе</h3>
+            </div>
+            <div class="md:col-span-7">
+              <p class="text-base sm:text-lg text-brandMuted font-medium leading-relaxed">
+                Постоянный контроль, еженедельные корректировки, оперативные ответы на любые вопросы и тёплая поддержка именно тогда, когда план встречается с реальной жизнью.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Кнопка в конце шагов -->
+        <div class="mt-14 sm:mt-16 text-center sm:text-left">
+          <button onclick="openBookingModal('Шаги - Обсудить мою цель')" class="px-8 sm:px-10 py-4 rounded-full text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md hover:shadow-btn active:scale-95">
+            Обсудить мою цель
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         07 / ФОРМАТЫ РАБОТЫ (ТОЛЬКО 2 ТАРИФА: КОМПЛЕКС И ОНЛАЙН-ТРЕНИРОВКИ)
+         VIP ТАРИФ ПОЛНОСТЬЮ УБРАН ПО ТРЕБОВАНИЮ
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-6xl mx-auto" id="formats">
+      <div class="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-3">
+          ВЫБЕРИ УРОВЕНЬ ПОДДЕРЖКИ
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark">
+          Форматы работы
+        </h2>
+        <p class="text-base sm:text-lg text-brandMuted font-medium mt-4">
+          Выберите подходящий формат индивидуальной работы со мной
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+        
+        <!-- ТАРИФ 1: КОМПЛЕКС (25 000 ₽ / месяц) - Рекомендуемый -->
+        <div class="relative p-8 sm:p-12 rounded-3xl bg-white/90 backdrop-blur-md border-2 border-brandDark shadow-editorial flex flex-col justify-between group">
+          <!-- Бэйдж популярности -->
+          <div class="absolute -top-4 right-8 bg-brandDark text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-md">
+            Основной формат · Выбор клиенток
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-6">
+              <span class="font-serif text-3xl font-bold text-brandAccent">01</span>
+              <span class="text-xs uppercase tracking-widest font-semibold text-brandMuted">Полное ведение</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-brandDark mb-4">
+              Комплекс
+            </h3>
+            <p class="text-base text-brandMuted font-medium mb-8 leading-relaxed">
+              План питания, контроль, обратная связь, работа с привычками и пищевым поведением. Всё включено для гарантированного результата.
+            </p>
+
+            <!-- Список включённых услуг -->
+            <ul class="space-y-4 text-sm sm:text-base text-brandDark font-medium mb-10 border-t border-brandBorder/60 pt-6">
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Индивидуальный рацион под твою цель без жестких запретов</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Персональная программа тренировок (для зала или дома)</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Разбор пищевого поведения и предотвращение срывов</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Ежедневная поддержка и обратная связь в личном чате</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Еженедельный созвон и корректировка программы</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="mb-6 pt-6 border-t border-brandBorder">
+              <div class="text-3xl sm:text-4xl font-serif font-bold text-brandDark">
+                25 000 ₽ <span class="text-base font-sans font-normal text-brandMuted">/ месяц</span>
+              </div>
+            </div>
+
+            <button onclick="openBookingModal('Тариф: Комплекс (25 000 ₽)')" class="w-full py-4 rounded-full text-center text-xs sm:text-sm font-bold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md hover:shadow-btn active:scale-98">
+              Обсудить формат →
+            </button>
+          </div>
+        </div>
+
+        <!-- ТАРИФ 2: ОНЛАЙН-ТРЕНИРОВКИ (12 000 ₽ за 8 занятий) -->
+        <div class="relative p-8 sm:p-12 rounded-3xl bg-white/90 backdrop-blur-md border border-brandBorder shadow-editorial flex flex-col justify-between group hover:border-brandDark/40 transition-all duration-300">
+          <div>
+            <div class="flex justify-between items-center mb-6">
+              <span class="font-serif text-3xl font-bold text-brandMuted">02</span>
+              <span class="text-xs uppercase tracking-widest font-semibold text-brandMuted">8 занятий</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-brandDark mb-4">
+              Онлайн-тренировки
+            </h3>
+            <p class="text-base text-brandMuted font-medium mb-8 leading-relaxed">
+              8 персональных тренировок по видеосвязи с постоянным контролем техники каждого движения.
+            </p>
+
+            <!-- Список включённых услуг -->
+            <ul class="space-y-4 text-sm sm:text-base text-brandDark font-medium mb-10 border-t border-brandBorder/60 pt-6">
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>8 полноценных тренировок 1-на-1 по видеосвязи</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Постановка безупречной и безопасной техники</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Подбор нагрузки под твои суставы, спину и уровень сил</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Тренировки дома с минимумом инвентаря или в зале</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <span class="text-brandAccent font-bold">✓</span>
+                <span>Мотивация, драйв и заряд позитива на каждом занятии</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="mb-6 pt-6 border-t border-brandBorder">
+              <div class="text-3xl sm:text-4xl font-serif font-bold text-brandDark">
+                12 000 ₽ <span class="text-base font-sans font-normal text-brandMuted">/ 8 тренировок</span>
+              </div>
+            </div>
+
+            <button onclick="openBookingModal('Тариф: Онлайн-тренировки (12 000 ₽)')" class="w-full py-4 rounded-full text-center text-xs sm:text-sm font-bold uppercase tracking-[0.15em] border border-brandDark text-brandDark hover:bg-brandDark hover:text-white transition-all duration-300 shadow-sm active:scale-98">
+              Обсудить формат →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         08 / ТРИ ТРЕНИРОВКИ СО МНОЙ (ЗА 999 ₽)
+         ВЕРХ + НИЗ + ФУЛЛБОДИ С ОПЛАТОЙ И АВТООТПРАВКОЙ НА ПОЧТУ
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-7xl mx-auto" id="workouts">
+      <div class="bg-white/90 backdrop-blur-md rounded-3xl border border-brandBorder shadow-editorial overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
+          
+          <!-- Фотография Анастасии в спортивной форме слева -->
+          <div class="lg:col-span-5 h-full min-h-[380px] lg:min-h-[560px] relative overflow-hidden bg-neutral-100">
+            <picture>
+              <source srcset="images/nastya-workouts.webp" type="image/webp">
+              <img src="images/nastya-workouts.png" alt="Анастасия — тренировки для дома и зала" class="w-full h-full object-cover object-center filter contrast-[1.03] hover:scale-105 transition-transform duration-700" loading="lazy">
+            </picture>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+            
+            <div class="absolute bottom-6 left-6 right-6 text-white">
+              <span class="inline-block bg-brandAccent px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-2">
+                Экспресс-старт
+              </span>
+              <div class="text-xl sm:text-2xl font-serif font-bold">3 готовых видео-урока</div>
+              <div class="text-xs text-white/80">Доступ навсегда · Записи на почту</div>
+            </div>
+          </div>
+
+          <!-- Описание предложения справа -->
+          <div class="lg:col-span-7 p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
+            <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-3">
+              НЕ ГОТОВА К СОПРОВОЖДЕНИЮ?
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark leading-tight mb-5">
+              Начни с трёх тренировок со мной
+            </h2>
+
+            <p class="text-base sm:text-lg text-brandMuted font-medium leading-relaxed mb-8">
+              Дом, зал или отпуск. Познакомься с моим стилем объяснений и почувствуй формат до большой программы.
+            </p>
+
+            <!-- 3 тренировки в комплекте -->
+            <div class="space-y-4 mb-8">
+              <div class="flex items-start space-x-3">
+                <span class="w-6 h-6 rounded-full bg-brandAccent/15 text-brandAccent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+                <div>
+                  <strong class="text-brandDark font-semibold">Тренировка на верх тела:</strong>
+                  <span class="text-brandMuted text-sm block sm:inline"> красивая осанка, рельефные руки и снятие зажимов со спины.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3">
+                <span class="w-6 h-6 rounded-full bg-brandAccent/15 text-brandAccent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+                <div>
+                  <strong class="text-brandDark font-semibold">Тренировка на низ тела:</strong>
+                  <span class="text-brandMuted text-sm block sm:inline"> упругие ягодицы, стройные ноги и плоский живот без боли в коленях.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-3">
+                <span class="w-6 h-6 rounded-full bg-brandAccent/15 text-brandAccent flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+                <div>
+                  <strong class="text-brandDark font-semibold">Фуллбоди тренировка:</strong>
+                  <span class="text-brandMuted text-sm block sm:inline"> функциональная работа на все группы мышц для бодрости и тонуса.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Цена и кнопка покупки -->
+            <div class="pt-6 border-t border-brandBorder flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+              <div>
+                <div class="text-xs uppercase tracking-widest font-semibold text-brandMuted">Стоимость набора</div>
+                <div class="text-4xl sm:text-5xl font-serif font-bold text-brandDark">999 ₽</div>
+              </div>
+
+              <button onclick="openPaymentModal()" class="px-8 sm:px-10 py-4 rounded-full text-xs sm:text-sm font-bold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md hover:shadow-btn active:scale-95 text-center">
+                Получить доступ за 999 ₽
+              </button>
+            </div>
+
+            <div class="mt-4 flex items-center space-x-2 text-xs text-brandMuted">
+              <svg class="w-4 h-4 text-brandAccent flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+              <span>Мгновенная доставка ссылок на записи сразу на вашу почту после оплаты</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         09 / ЧАСТЫЕ ВОПРОСЫ (ИНТЕРАКТИВНЫЙ АККОРДЕОН)
+         ========================================================================= -->
+    <section class="py-20 sm:py-28 px-5 sm:px-8 max-w-4xl mx-auto" id="faq">
+      <div class="p-8 sm:p-14 rounded-3xl bg-white/75 backdrop-blur-md border border-white/80 shadow-editorial">
+        <div class="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+          <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-3">
+            ПЕРЕД СТАРТОМ
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brandDark">
+            Частые вопросы
+          </h2>
+        </div>
+
+        <!-- Список вопросов-ответов -->
+        <div class="space-y-4">
+          
+          <!-- Вопрос 1 -->
+          <div class="faq-item border-b border-brandBorder pb-5">
+            <button class="faq-question w-full flex justify-between items-center text-left py-3 group">
+              <span class="text-lg sm:text-xl font-medium text-brandDark group-hover:text-brandAccent transition-colors">
+                Подойдёт ли мне, если я давно не тренировалась?
+              </span>
+              <span class="faq-icon text-2xl font-light text-brandMuted group-hover:text-brandDark transition-transform duration-300 ml-4">+</span>
+            </button>
+            <div class="faq-answer hidden pt-2 pb-3 text-base text-brandMuted leading-relaxed">
+              Да, абсолютно! Вся нагрузка подбирается строго под твой текущий уровень подготовки и состояние здоровья. Мы начинаем бережно и плавно, чтобы у тебя не было дикой крепатуры, болей в суставах и желания все бросить.
+            </div>
+          </div>
+
+          <!-- Вопрос 2 -->
+          <div class="faq-item border-b border-brandBorder pb-5">
+            <button class="faq-question w-full flex justify-between items-center text-left py-3 group">
+              <span class="text-lg sm:text-xl font-medium text-brandDark group-hover:text-brandAccent transition-colors">
+                Нужно ли полностью менять питание?
+              </span>
+              <span class="faq-icon text-2xl font-light text-brandMuted group-hover:text-brandDark transition-transform duration-300 ml-4">+</span>
+            </button>
+            <div class="faq-answer hidden pt-2 pb-3 text-base text-brandMuted leading-relaxed">
+              Нет, никаких резких запретов и строгих диет. Мы шаг за шагом корректируем привычки и находим комфортный рацион, где есть место твоим любимым блюдам, кофе, ресторанам и поездкам. Главное — результат без стресса.
+            </div>
+          </div>
+
+          <!-- Вопрос 3 -->
+          <div class="faq-item border-b border-brandBorder pb-5">
+            <button class="faq-question w-full flex justify-between items-center text-left py-3 group">
+              <span class="text-lg sm:text-xl font-medium text-brandDark group-hover:text-brandAccent transition-colors">
+                Можно заниматься дома?
+              </span>
+              <span class="faq-icon text-2xl font-light text-brandMuted group-hover:text-brandDark transition-transform duration-300 ml-4">+</span>
+            </button>
+            <div class="faq-answer hidden pt-2 pb-3 text-base text-brandMuted leading-relaxed">
+              Конечно. Программу можно выстроить под любые условия: дома (с собственным весом, резинками или гантелями), в тренажерном зале или во время отпуска прямо в номере отеля.
+            </div>
+          </div>
+
+          <!-- Вопрос 4 -->
+          <div class="faq-item border-b border-brandBorder pb-5">
+            <button class="faq-question w-full flex justify-between items-center text-left py-3 group">
+              <span class="text-lg sm:text-xl font-medium text-brandDark group-hover:text-brandAccent transition-colors">
+                Как выбрать подходящий формат?
+              </span>
+              <span class="faq-icon text-2xl font-light text-brandMuted group-hover:text-brandDark transition-transform duration-300 ml-4">+</span>
+            </button>
+            <div class="faq-answer hidden pt-2 pb-3 text-base text-brandMuted leading-relaxed">
+              Самый верный шаг — записаться на бесплатную 20-минутную диагностику. Мы созвонимся, обсудим твои цели, образ жизни, график и вместе выберем: индивидуальный Комплекс или 8 Онлайн-тренировок.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         10 / ФИНАЛЬНЫЙ ЭКРАН (ТЁМНЫЙ РАЗДЕЛ С ПРИЗЫВОМ И КОНТАКТАМИ)
+         ========================================================================= -->
+    <footer class="bg-brandDarkBg/95 backdrop-blur-xl text-white py-24 sm:py-32 px-5 sm:px-8 border-t border-brandBorderDark relative overflow-hidden" id="contacts">
+      <!-- Фоновый мягкий свет -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brandAccent/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="inline-block text-[11px] sm:text-[12px] font-bold tracking-[0.25em] text-brandAccent uppercase mb-5">
+          ПЕРВЫЙ ШАГ — РАЗГОВОР
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-white leading-[1.15] mb-6">
+          Тебе не нужно быть <br>
+          готовой на 100%. <br>
+          <span class="italic text-brandAccent font-normal">Достаточно начать.</span>
+        </h2>
+
+        <p class="text-base sm:text-xl text-neutral-300 font-medium max-w-2xl mx-auto leading-relaxed mb-10">
+          Расскажи, что хочешь изменить. Я помогу понять, какой путь будет реалистичным именно для тебя.
+        </p>
+
+        <div class="mb-14">
+          <button onclick="openBookingModal('Финальный экран - Запись на диагностику')" class="px-9 sm:px-12 py-5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-[0.18em] bg-white text-brandDark hover:bg-brandAccent hover:text-white transition-all duration-300 shadow-xl active:scale-95">
+            Записаться на бесплатную диагностику
+          </button>
+        </div>
+
+        <!-- Кликабельные контакты -->
+        <div class="pt-10 border-t border-white/15 flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-sm font-medium tracking-wider">
+          <a href="https://www.instagram.com/emelyanova_fit?igsh=MTk2bDh3dzRnMDNwdg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-neutral-300 hover:text-white transition flex items-center space-x-2">
+            <span>Instagram</span>
+            <span class="text-xs opacity-60">↗</span>
+          </a>
+
+          <a href="https://t.me/Emel_Anas" target="_blank" rel="noopener noreferrer" class="text-neutral-300 hover:text-white transition flex items-center space-x-2">
+            <span>Telegram личный (@Emel_Anas)</span>
+            <span class="text-xs opacity-60">↗</span>
+          </a>
+
+          <a href="https://t.me/tely_delo" target="_blank" rel="noopener noreferrer" class="text-neutral-300 hover:text-white transition flex items-center space-x-2">
+            <span>Канал «Тело и Дело»</span>
+            <span class="text-xs opacity-60">↗</span>
+          </a>
+        </div>
+
+        <div class="mt-12 text-xs text-neutral-400 font-light">
+          © 2026 Анастасия Емельянова · Все права защищены
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /relative z-10 w-full -->
+
+
+  <!-- =========================================================================
+       МОДАЛЬНОЕ ОКНО 1: ЗАПИСЬ НА БЕСПЛАТНУЮ ДИАГНОСТИКУ
+       ========================================================================= -->
+  <div id="bookingModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-7 sm:p-10 shadow-2xl border border-brandBorder relative transform scale-95 transition-transform duration-300 overflow-hidden" id="bookingModalCard">
+      
+      <!-- Кнопка закрытия -->
+      <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-brandMuted hover:text-brandDark text-2xl leading-none">&times;</button>
+
+      <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-brandAccent mb-2">БЕСПЛАТНЫЙ СОЗВОН (20-30 МИНУТ)</div>
+      <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark mb-3">Запись на диагностику</h3>
+      <p class="text-sm text-brandMuted mb-6 leading-relaxed">
+        Оставь свои контакты — я свяжусь с тобой в Telegram или WhatsApp, чтобы договориться об удобном времени для созвона.
+      </p>
+
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+        <input type="hidden" id="bookingTarget" value="Бесплатная диагностика">
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">Твоё имя</label>
+          <input type="text" id="bookingName" required placeholder="Как к тебе обращаться?" class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">Telegram или Телефон / WhatsApp</label>
+          <input type="text" id="bookingContact" required placeholder="@username или +7 (999) 000-00-00" class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">Какая главная цель? (необязательно)</label>
+          <input type="text" id="bookingGoal" placeholder="Похудеть, рельеф, наладить питание..." class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-full text-xs sm:text-sm font-bold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md mt-2 active:scale-95">
+          Отправить заявку Насте
+        </button>
+
+        <p class="text-[11px] text-center text-brandMuted mt-3">
+          Или напиши мне напрямую в Telegram: <a href="https://t.me/Emel_Anas" target="_blank" class="text-brandDark underline font-semibold">@Emel_Anas</a>
+        </p>
+      </form>
+
+      <!-- Состояние успеха -->
+      <div id="bookingSuccess" class="hidden text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-brandAccent/20 text-brandAccent mx-auto flex items-center justify-center text-2xl font-bold mb-4">✓</div>
+        <h4 class="text-2xl font-serif font-bold text-brandDark mb-2">Заявка принята!</h4>
+        <p class="text-sm text-brandMuted mb-6">Спасибо! Я напишу тебе в ближайшее время, чтобы согласовать время нашего созвона.</p>
+        <button onclick="closeBookingModal()" class="px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-brandDark text-white">Отлично</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       МОДАЛЬНОЕ ОКНО 2: ОПЛАТА 3 ТРЕНИРОВОК (999 ₽) С ОТПРАВКОЙ НА ПОЧТУ
+       ========================================================================= -->
+  <div id="paymentModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-7 sm:p-10 shadow-2xl border border-brandBorder relative transform scale-95 transition-transform duration-300 overflow-hidden" id="paymentModalCard">
+      
+      <!-- Кнопка закрытия -->
+      <button onclick="closePaymentModal()" class="absolute top-6 right-6 text-brandMuted hover:text-brandDark text-2xl leading-none">&times;</button>
+
+      <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-brandAccent mb-2">ДОСТУП К 3 ТРЕНИРОВКАМ</div>
+      <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark mb-2">Оформление доступа</h3>
+      <p class="text-sm text-brandMuted mb-6 leading-relaxed">
+        Сразу после оплаты ссылки на видеозаписи 3 тренировок (верх, низ, фуллбоди) автоматически придут на указанный вами Email.
+      </p>
+
+      <form id="paymentForm" onsubmit="handlePaymentSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">Ваше имя</label>
+          <input type="text" id="payName" required placeholder="Введите ваше имя" class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">
+            Email для получения записей <span class="text-brandAccent">*</span>
+          </label>
+          <input type="email" id="payEmail" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+          <span class="text-[11px] text-brandMuted mt-1 block">Проверьте правильность почты — туда придут видеозаписи</span>
+        </div>
+
+        <div>
+          <label class="block text-xs uppercase tracking-wider font-semibold text-brandDark mb-1">Telegram или Телефон (для связи)</label>
+          <input type="text" id="payTelegram" placeholder="@username или +7..." class="w-full px-4 py-3 rounded-xl border border-brandBorder focus:border-brandDark focus:ring-1 focus:ring-brandDark outline-none text-sm transition">
+        </div>
+
+        <div class="p-4 rounded-xl bg-brandBg border border-brandBorder flex justify-between items-center my-3">
+          <div>
+            <div class="text-sm font-bold text-brandDark">Комплект: 3 тренировки</div>
+            <div class="text-xs text-brandMuted">Верх · Низ · Фуллбоди (навсегда)</div>
+          </div>
+          <div class="text-2xl font-serif font-bold text-brandDark">999 ₽</div>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-full text-xs sm:text-sm font-bold uppercase tracking-[0.15em] bg-brandDark text-white hover:bg-brandAccent transition-all duration-300 shadow-md active:scale-95 flex items-center justify-center space-x-2">
+          <span>Перейти к оплате 999 ₽</span>
+          <span>🔒</span>
+        </button>
+
+        <div class="flex items-center justify-center space-x-4 pt-2 text-[11px] text-brandMuted">
+          <span>✓ СБП</span>
+          <span>✓ Банковские карты</span>
+          <span>✓ Безопасный платёж</span>
+        </div>
+      </form>
+
+      <!-- Состояние после подтверждения/оплаты -->
+      <div id="paymentSuccess" class="hidden text-center py-6">
+        <div class="w-16 h-16 rounded-full bg-brandAccent/20 text-brandAccent mx-auto flex items-center justify-center text-2xl font-bold mb-4">✓</div>
+        <h4 class="text-2xl font-serif font-bold text-brandDark mb-2">Переход к оплате</h4>
+        <p class="text-sm text-brandMuted mb-4">
+          Мы зафиксировали ваш Email (<span id="confirmedEmail" class="font-bold text-brandDark"></span>).
+        </p>
+        <p class="text-xs text-brandMuted mb-6">
+          Если оплата уже прошла или вы хотите оплатить напрямую через СБП/Тинькофф/Telegram, нажмите ниже:
+        </p>
+        <div class="space-y-3">
+          <a id="directPayBtn" href="https://t.me/Emel_Anas?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%AF%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C%203%20%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B8%20%D0%B7%D0%B0%20999%20%D1%80%D1%83%D0%B1" target="_blank" class="block w-full py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-brandAccent text-white hover:bg-brandDark transition text-center">
+            Написать Насте в Telegram для моментальной отправки
+          </a>
+          <button onclick="closePaymentModal()" class="w-full py-3 rounded-full text-xs font-bold uppercase tracking-widest border border-brandBorder text-brandDark">
+            Закрыть
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
